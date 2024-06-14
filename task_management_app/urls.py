@@ -18,8 +18,11 @@ from django.urls import path
 from django.urls import include
 
 from task_app import urls as task_app_urls
+from basic_token_auth.views import GetAuthToken, RefreshAuthToken
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('tasks/', include(task_app_urls))
+    path('tasks/', include(task_app_urls)),
+    path('api_token_auth/', GetAuthToken.as_view()),
+    path('refresh_auth_token', RefreshAuthToken.as_view()),
 ]

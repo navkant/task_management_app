@@ -1,5 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework import response, status
+from rest_framework.permissions import IsAuthenticated
 from dependency_injector.wiring import Provide
 
 from task_app.task.domain.use_cases.list_all_tasks_use_case import ListAllTasksUseCase
@@ -10,6 +11,7 @@ from task_app.task.presentation.types import TaskListResponse, TaskResponse, Tas
 
 
 class ListAllTasksView(APIView):
+    permission_classes = [IsAuthenticated]
 
     def get(
         self,
