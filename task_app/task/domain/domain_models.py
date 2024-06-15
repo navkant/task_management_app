@@ -1,10 +1,10 @@
 from enum import Enum
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 
 
 class TaskDomainModel(BaseModel):
-    id: int
+    id: Optional[int] = None
     title: str
     description: str
     status: str  # use validator here?

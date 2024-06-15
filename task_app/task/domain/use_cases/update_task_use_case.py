@@ -8,12 +8,13 @@ class UpdateTaskUseCase:
     def __init__(self, task_repo: TaskAbstractRepo = Provide["task_container.task_repo"]):
         self.task_repo = task_repo
 
-    def execute(self, task: TaskUpdateRequest) -> TaskDomainModel:
+    def execute(self, task: TaskUpdateRequest, user_id: int) -> TaskDomainModel:
         return self.task_repo.update_task(
             task=TaskDomainModel(
                 id=task.id,
                 title=task.title,
                 description=task.description,
                 status=task.status,
-            )
+            ),
+            user_id=user_id
         )

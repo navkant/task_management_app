@@ -4,17 +4,21 @@ from task_app.task.domain.domain_models import TaskListDomainModel, TaskDomainMo
 
 class TaskAbstractRepo(ABC):
     @abstractmethod
-    def list_all_tasks(self) -> TaskListDomainModel:
+    def list_all_tasks(self, user_id: int) -> TaskListDomainModel:
         pass
 
     @abstractmethod
-    def get_task_by_id(self, id: int) -> TaskDomainModel:
+    def get_task_by_id(self, task_id: int, user_id: int) -> TaskDomainModel:
         pass
 
     @abstractmethod
-    def create_task(self, task: TaskDomainModel) -> TaskDomainModel:
+    def create_task(self, task: TaskDomainModel, user_id: int) -> TaskDomainModel:
         pass
 
     @abstractmethod
-    def update_task(self, task: TaskDomainModel) -> TaskDomainModel:
+    def update_task(self, task: TaskDomainModel, user_id: int) -> TaskDomainModel:
+        pass
+
+    @abstractmethod
+    def delete_task(self, task_id: int, user_id: int) -> TaskDomainModel:
         pass

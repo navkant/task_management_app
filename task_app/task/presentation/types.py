@@ -29,3 +29,4 @@ class TaskCreateRequest(BaseModel):
 
 class TaskUpdateRequest(TaskCreateRequest):
     id: int
+
