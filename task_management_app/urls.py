@@ -19,10 +19,13 @@ from django.urls import include
 
 from task_app import urls as task_app_urls
 from basic_token_auth.views import GetAuthToken, RefreshAuthToken
+from basic_token_auth.views import RegisterView
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('tasks/', include(task_app_urls)),
-    path('api_token_auth/', GetAuthToken.as_view()),
-    path('refresh_auth_token', RefreshAuthToken.as_view()),
+    path(r'admin/', admin.site.urls),
+    path(r'tasks/', include(task_app_urls)),
+    path(r'api_token_auth/', GetAuthToken.as_view(), name='get_auth_token'),
+    path(r'refresh_auth_token/', RefreshAuthToken.as_view(), name='refresh_auth_token'),
+    path(r'register/', RegisterView.as_view(), name='register')
 ]

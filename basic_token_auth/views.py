@@ -4,6 +4,10 @@ from django.utils import timezone
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.contrib.auth.models import User
+from .serializers import RegisterSerializer
+from rest_framework import generics
+from rest_framework.permissions import AllowAny
 
 from basic_token_auth.exceptions import InvalidRefreshToken
 from basic_token_auth.models import RefreshToken, Token
@@ -53,3 +57,9 @@ class RefreshAuthToken(APIView):
                 "token": new_auth_token,
             }
         )
+
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer

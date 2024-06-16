@@ -22,3 +22,7 @@ class TaskAbstractRepo(ABC):
     @abstractmethod
     def delete_task(self, task_id: int, user_id: int) -> TaskDomainModel:
         pass
+
+    @abstractmethod
+    def filter_task_by_status(self, user_id: int, status: str) -> TaskListDomainModel:
+        pass

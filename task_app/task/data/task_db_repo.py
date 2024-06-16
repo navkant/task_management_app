@@ -46,3 +46,6 @@ class TaskDbRepo(TaskAbstractRepo):
             raise TaskDoesNotExists(f"No Task found with id: {task_id} user_id: {user_id}")
 
         return TaskDomainModel.from_orm(deleted_task)
+
+    def filter_task_by_status(self, user_id: int, status: str):
+        pass
