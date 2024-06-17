@@ -6,9 +6,9 @@ from task_app.task.tests.factories import TaskFactory
 from task_app.task.presentation.types import TaskResponse, TaskListResponse
 
 
-class TaskAPITestCase(TmaAPITestCase):
+class ListAllTasksAPITestCase(TmaAPITestCase):
     def setUp(self):
-        super(TaskAPITestCase, self).setUp()
+        super(ListAllTasksAPITestCase, self).setUp()
         self.set_auth_credentials(self.user)
 
     def test_list_all_tasks(self):

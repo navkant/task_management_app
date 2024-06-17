@@ -21,7 +21,6 @@ class ListAllTasksView(APIView):
         list_all_tasks: ListAllTasksUseCase = Provide["task_container.list_all_tasks_use_case"]
     ):
         tasks = list_all_tasks.execute(user_id=request.user.id)
-        print(tasks)
         return response.Response(
             TaskListResponse.from_orm(tasks).dict(), status=status.HTTP_200_OK
         )
