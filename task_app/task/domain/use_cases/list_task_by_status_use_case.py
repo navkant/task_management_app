@@ -8,4 +8,4 @@ class ListTasksByStatusUseCase:
         self.task_repo = task_repo
 
     def execute(self, user_id: int, status: str) -> TaskListDomainModel:
-        return self.task_repo.list_task_by_status(user_id=user_id, status=status)
+        return self.task_repo.list_tasks_by_status(user_id=user_id, status=status)

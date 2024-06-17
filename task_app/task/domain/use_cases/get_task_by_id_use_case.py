@@ -7,5 +7,5 @@ class GetTaskByIdUseCase:
     def __init__(self, task_repo: TaskAbstractRepo = Provide["task_container.task_repo"]):
         self.task_repo = task_repo
 
-    def execute(self, id: int, user_id: int) -> TaskDomainModel:
-        return self.task_repo.get_task_by_id(task_id=id, user_id=user_id)
+    def execute(self, task_id: int, user_id: int) -> TaskDomainModel:
+        return self.task_repo.get_task_by_id(task_id=task_id, user_id=user_id)

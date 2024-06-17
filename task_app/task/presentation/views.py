@@ -4,11 +4,11 @@ from rest_framework.permissions import IsAuthenticated
 from dependency_injector.wiring import Provide
 
 from task_app.task.domain.use_cases.list_all_tasks_use_case import ListAllTasksUseCase
-from task_app.task.domain.use_cases.get_task_by_id import GetTaskByIdUseCase
+from task_app.task.domain.use_cases.get_task_by_id_use_case import GetTaskByIdUseCase
 from task_app.task.domain.use_cases.create_task_use_case import CreateTaskUseCase
 from task_app.task.domain.use_cases.update_task_use_case import UpdateTaskUseCase
 from task_app.task.domain.use_cases.delete_task_use_case import DeleteTaskUseCase
-from task_app.task.domain.use_cases.list_task_by_status import ListTasksByStatusUseCase
+from task_app.task.domain.use_cases.list_task_by_status_use_case import ListTasksByStatusUseCase
 from task_app.task.presentation.types import TaskListResponse, TaskResponse, TaskCreateRequest, TaskUpdateRequest
 
 
@@ -31,7 +31,7 @@ class GetTaskByIdView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, task_id, get_task_by_id: "GetTaskByIdUseCase" = Provide["task_container.get_task_by_id_use_case"]):
-        task = get_task_by_id.execute(id=task_id, user_id=request.user.id)
+        task = get_task_by_id.execute(task_id=task_id, user_id=request.user.id)
         return response.Response(
             TaskResponse.from_orm(task).dict(), status=status.HTTP_200_OK
         )
@@ -82,8 +82,8 @@ class ListTasksByStatusView(APIView):
     def get(
         self,
         request,
-        status: str,
-        list_tasks_by_status: ListTasksByStatusUseCase = Provide["task_container.list_tasks_by_status"]
+        task_status: str,
+        list_tasks_by_status: ListTasksByStatusUseCase = Provide["task_container.list_tasks_by_status_use_case"]
     ):
-        tasks = list_tasks_by_status.execute(user_id=request.user.id, status=status)
+        tasks = list_tasks_by_status.execute(user_id=request.user.id, status=task_status)
         return response.Response(TaskListResponse.from_orm(tasks).dict(), status=status.HTTP_200_OK)

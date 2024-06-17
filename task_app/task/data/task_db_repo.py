@@ -47,6 +47,6 @@ class TaskDbRepo(TaskAbstractRepo):
 
         return TaskDomainModel.from_orm(deleted_task)
 
-    def list_task_by_status(self, user_id: int, status: str):
+    def list_tasks_by_status(self, user_id: int, status: str):
         tasks = Task.objects.filter(created_by_id=user_id, status=status).order_by("id")
         return TaskListDomainModel(items=list(map(TaskDomainModel.from_orm, tasks)))

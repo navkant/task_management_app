@@ -35,7 +35,7 @@ class GetAuthToken(APIView):
 
 class RefreshAuthToken(APIView):
     def post(self, request):
-        refresh_token_key = request.META.GET("HTTP_X_REFRESH_TOKEN")
+        refresh_token_key = request.META.get("HTTP_X_REFRESH_TOKEN")
 
         try:
             refresh_token_qs = RefreshToken.objects.select_related("user").filter(key=refresh_token_key)

@@ -87,5 +87,27 @@ class BookDbRepoTest(TestCase):
 
         deleted_task = self.db_repo.delete_task(task_id=task.id, user_id=user.id)
 
-        tasks = Task.objects.filter(is_deleted=0)
+        tasks = Task.objects.filter(id=task.id, created_by_id=user.id, is_deleted=0)
         self.assertEqual(len(tasks), 0)
+
+    def test_list_tasks_by_status(self):
+        user = UserFactory()
+        # create some tasks with different statuses
+        task_1 = TaskFactory(created_by=user, status="TO DO")
+        task_2 = TaskFactory(created_by=user, status="IN PROGRESS")
+        task_3 = TaskFactory(created_by=user, status="IN PROGRESS")
+
+        # now filtere the tasks by status
+        in_progress_tasks = self.db_repo.list_tasks_by_status(user_id=user.id, status="IN PROGRESS")
+        # assert that we got two tasks with status as IN PROGRESS
+        self.assertEqual(len(in_progress_tasks.items), 2)
+        # assert that the attributes are same
+        self.assertEqual(
+            in_progress_tasks,
+            TaskListDomainModel(
+                items=[
+                    TaskDomainModel.from_orm(task_2),
+                    TaskDomainModel.from_orm(task_3),
+                ]
+            )
+        )
