@@ -6,7 +6,7 @@ from task_app.task.exceptions import TaskDoesNotExists
 
 class TaskDbRepo(TaskAbstractRepo):
     def list_all_tasks(self, user_id: int) -> TaskListDomainModel:
-        tasks = Task.objects.filter(created_by=user_id, is_deleted=False)
+        tasks = Task.objects.filter(created_by=user_id, is_deleted=False).order_by("id")
         return TaskListDomainModel(items=list(map(TaskDomainModel.from_orm, tasks)))
 
     def get_task_by_id(self, task_id: int, user_id: int) -> TaskDomainModel:

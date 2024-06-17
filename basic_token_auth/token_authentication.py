@@ -45,7 +45,6 @@ class BearerTokenAuthentication(BaseAuthentication):
 
     def authenticate(self, request):
         auth = self._get_authorization_header(request).split()
-
         if not auth or auth[0].lower() != self.keyword.lower().encode():
             return None
 
