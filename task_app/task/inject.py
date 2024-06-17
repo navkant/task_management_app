@@ -7,6 +7,7 @@ from task_app.task.domain.use_cases.get_task_by_id import GetTaskByIdUseCase
 from task_app.task.domain.use_cases.create_task_use_case import CreateTaskUseCase
 from task_app.task.domain.use_cases.update_task_use_case import UpdateTaskUseCase
 from task_app.task.domain.use_cases.delete_task_use_case import DeleteTaskUseCase
+from task_app.task.domain.use_cases.list_task_by_status import ListTasksByStatusUseCase
 
 
 class TaskContainer(containers.DeclarativeContainer):
@@ -19,3 +20,4 @@ class TaskContainer(containers.DeclarativeContainer):
     create_task_use_case = providers.Factory(CreateTaskUseCase)
     update_task_use_case = providers.Factory(UpdateTaskUseCase)
     delete_task_use_case = providers.Factory(DeleteTaskUseCase)
+    list_task_by_status = providers.Factory(ListTasksByStatusUseCase)

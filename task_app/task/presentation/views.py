@@ -8,6 +8,7 @@ from task_app.task.domain.use_cases.get_task_by_id import GetTaskByIdUseCase
 from task_app.task.domain.use_cases.create_task_use_case import CreateTaskUseCase
 from task_app.task.domain.use_cases.update_task_use_case import UpdateTaskUseCase
 from task_app.task.domain.use_cases.delete_task_use_case import DeleteTaskUseCase
+from task_app.task.domain.use_cases.list_task_by_status import ListTasksByStatusUseCase
 from task_app.task.presentation.types import TaskListResponse, TaskResponse, TaskCreateRequest, TaskUpdateRequest
 
 
@@ -73,3 +74,16 @@ class DeleteTaskView(APIView):
         return response.Response(
             TaskResponse.from_orm(deleted_task).dict(), status=status.HTTP_200_OK
         )
+
+
+class ListTasksByStatusView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(
+        self,
+        request,
+        status: str,
+        list_tasks_by_status: ListTasksByStatusUseCase = Provide["task_container.list_tasks_by_status"]
+    ):
+        tasks = list_tasks_by_status.execute(user_id=request.user.id, status=status)
+        return response.Response(TaskListResponse.from_orm(tasks).dict(), status=status.HTTP_200_OK)

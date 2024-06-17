@@ -24,5 +24,5 @@ class TaskAbstractRepo(ABC):
         pass
 
     @abstractmethod
-    def filter_task_by_status(self, user_id: int, status: str) -> TaskListDomainModel:
+    def list_task_by_status(self, user_id: int, status: str) -> TaskListDomainModel:
         pass
