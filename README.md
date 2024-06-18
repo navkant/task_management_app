@@ -83,7 +83,13 @@ Domain layer depends on data layer for getting data and then doing business logi
 Presentation layer is where our django views live. Presentation layer deals with designing the 
 input from user or api payload. This layer depends on domain layer. This layer also handles the 
 response format of the api.
+<br/><br/>
 
+#### Benefits of Clean Architecture
+Clean Architecture helps in organizing code in a way which is easy to understand. Also 
+keeping components separate helps in testing the code very easily.
+Here we have used dependency injection instead of directly injecting the dependent 
+modules in to the function. This also helps in testing code with little to no efforts 
 
 ## Register with the Task Management App
 
@@ -161,4 +167,38 @@ Lets see if the task we updated in last api was updated or not.
 ![Directory Structure](.project_data/get_task_by_id.png)
 
 
+## Filter tasks by status
+You can list your tasks by status. For example, you want to get all you `IN PROGRESS` tasks. Make a call
+to `http://localhost:8000/tasks/<task_status>/`.
 
+![Directory Structure](.project_data/task_by_status.png)
+
+
+## Delete task
+After you have completed a task you can delete it. To delete a task make a call to 
+`http://localhost:8000/tasks/<task_id>/delete/`.
+
+![Directory Structure](.project_data/delete_task.png)
+
+
+## Unit Tests
+All the tests for task app reside in `task_app/task/tests/` folder. We have used `django.tests` for writing tests.
+Here also we have followed layered approach. All three layers have their own separate tests.
+
+1. **Data layer** It tests all the db functions are working as expected or not.
+
+2. **Domain layer** tests are used to test all usecases or business logic.
+
+3. **Presentation layer** tests everything from end to end. It makes a call to api endpoint and tests 
+if everything is working as expected or not.
+
+To run all tests just run command `python manage.py test`.
+
+To run an individual test run command `python manage.py test <path_reference_to_test>` for example,
+`python manage.py test task_app.task.tests.presentation.test_list_all_tasks_view.ListAllTasksAPITestCase`
+
+## Assumptions
+I have developed this app with assumption that person reviewing it will have 
+some understanding of python and django framework. I have tried to make it as easy to 
+understand as possible. But still if there is any query you can reach out to me 
+`navkant.tyagi9@gmail.com`. 
