@@ -12,7 +12,7 @@ For running it on local you will need
 
 There are two ways to setup this project on you local machine.
 
-1. If you have poetry install on you machine then run below command to setup things. You can get 
+1. If you have poetry install on you machine then run below command to set things up. You can get 
     poetry by following this guide [Poetry Guide](https://python-poetry.org/).
 
     `poetry install`
@@ -34,7 +34,7 @@ There are two ways to setup this project on you local machine.
 Inside the root directory of the project you will see this directory structure. I have created two 
 apps.
 
-![Alt text](.project_data/directory_structure.png)
+![Directory Structure](.project_data/directory_structure.png)
 
 ### **`basic_token_auth`** 
 
@@ -85,7 +85,80 @@ input from user or api payload. This layer depends on domain layer. This layer a
 response format of the api.
 
 
+## Register with the Task Management App
 
+After the django server is successfully up and running. First thing we need to do is register a user.
+For registering a new user make a call to end point `http://localhost:8000/register/` with the user 
+details in form data. (Note: This is the only api where form data has been used). 
+Rest all apis accept json payload. Refer the screenshot below for more details.
+
+![Directory Structure](.project_data/register_user.png)
+
+
+## Get Auth Token (Login) 
+
+After you have successfully registered. You need to authenticate yourselves with the app and get auth 
+token and refresh token. Auth token is set to expired in 1 day or 24 hours. After you auth token has expired 
+you can get new token using refresh token api (will discuss this api after this).
+To get the tokens make a call to `http://localhost:8000/api_auth_token/` with username and password.<p>
+Refer screenshot below to understand how to make a call to login api.
+
+![Directory Structure](.project_data/get_auth_token.png)
+
+Now you have got auth token and refresh token. You are ready to use the task management app. But first lets 
+see how to get new auth token before it expires.
+
+## Refresh Auth Token
+
+Auth token you recieved in previous api will expire in 24 hrs. After that you need to get new token. 
+To get new auth token you need to provide your refresh token.
+To get new auth token using refresh token make a call to `http://localhost:8000/refresh_auth_token/` 
+and dont forget to set the refresh token in headers.
+**(Here token values will not match because I took screenshot at different points in time.)**<p>
+Refer screenshot below for better understanding.
+
+![Directory Structure](.project_data/get_new_token.png)
+
+
+## Setting auth token in subsequent api calls
+
+Now for making authenticated call to create, update and delete tasks, you need to set auth token in 
+authorization headers.You need to do this for every api call.<p>
+Refer screenshot below for better understading.
+
+![Directory Structure](.project_data/setting_auth_header.png)
+
+
+## Creating your first task
+After setting your auth token you can create you first task. To create a task make a call to 
+`http://localhost:8000/create_task/`, with you task detail like title, description and status 
+in request payload.<p> Here remember one thing that in status, if you pass any other value than **`TO DO`, 
+`IN PROGRESS` and `DONE`**, app will not accept it and will throw and error.<p>
+Refer screenshot for better understanding.
+
+![Directory Structure](.project_data/create_task.png)
+you will get back response with details of the task. This response will also contain `task_id` 
+which will be used for updating and deleting tasks.
+
+
+## List all tasks
+To see all you tasks. Make a call to `http://localhost:8000/tasks/`.
+
+![Directory Structure](.project_data/list_all_tasks.png)
+
+
+## Update a task
+To update an existing task, make a call to `http://localhost:8000/tasks/update/`. You can update `title`, 
+`description` and `status`.
+
+![Directory Structure](.project_data/update_task.png)
+
+
+## Get task by id
+You can get details of an individual task by making a call to `http://localhost:8000/tasks/<task_id>/` 
+Lets see if the task we updated in last api was updated or not.
+
+![Directory Structure](.project_data/get_task_by_id.png)
 
 
 
