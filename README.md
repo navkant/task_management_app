@@ -34,7 +34,7 @@ There are two ways to setup this project on you local machine.
 Inside the root directory of the project you will see this directory structure. I have created two 
 apps.
 
-![Alt text](/Users/navkant/Desktop/Screenshot 2024-06-18 at 1.37.06 PM.png)
+![Alt text](.project_data/directory_structure.png)
 
 ### **`basic_token_auth`** 
 
