@@ -33,8 +33,10 @@ class TaskDbRepo(TaskAbstractRepo):
             description=task.description,
             status=task.status,
         )
-
-        update_task = Task.objects.get(id=task.id)
+        try:
+            update_task = Task.objects.get(id=task.id)
+        except Task.DoesNotExist as exc:
+            raise TaskDoesNotExists(f"No Task found with id: {task.id} user_id: {user_id}")
 
         return TaskDomainModel.from_orm(update_task)
 

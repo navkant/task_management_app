@@ -33,11 +33,7 @@ class CreateTaskUseCaseTest(SimpleTestCase):
         user_id = 11
         self.mocked_task_repo.create_task.return_value = task
         result = create_task_use_case.execute(
-            task=TaskCreateRequest(
-                title=task.title,
-                description=task.description,
-                status=task.status,
-            ),
+            task=task,
             user_id=user_id,
         )
         self.mocked_task_repo.create_task.assert_called_with(

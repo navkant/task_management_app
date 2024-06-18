@@ -9,6 +9,7 @@ from task_app.task.domain.use_cases.create_task_use_case import CreateTaskUseCas
 from task_app.task.domain.use_cases.update_task_use_case import UpdateTaskUseCase
 from task_app.task.domain.use_cases.delete_task_use_case import DeleteTaskUseCase
 from task_app.task.domain.use_cases.list_task_by_status_use_case import ListTasksByStatusUseCase
+from task_app.task.domain.domain_models import TaskDomainModel
 from task_app.task.presentation.types import TaskListResponse, TaskResponse, TaskCreateRequest, TaskUpdateRequest
 
 
@@ -42,7 +43,14 @@ class CreateTaskView(APIView):
     def post(self, request, create_task_use_case: CreateTaskUseCase = Provide["task_container.create_task_use_case"]):
         task_create_request = TaskCreateRequest.parse_obj(request.data)
 
-        task_response = create_task_use_case.execute(task=task_create_request, user_id=request.user.id)
+        task_response = create_task_use_case.execute(
+            task=TaskDomainModel(
+                title=task_create_request.title,
+                description=task_create_request.description,
+                status=task_create_request.status,
+            ),
+            user_id=request.user.id
+        )
 
         return response.Response(
             TaskResponse.from_orm(task_response).dict(), status=status.HTTP_200_OK

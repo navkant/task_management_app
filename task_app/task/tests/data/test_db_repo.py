@@ -4,6 +4,8 @@ from task_app.task.data.task_db_repo import TaskDbRepo
 from task_app.task.domain.domain_models import TaskDomainModel, TaskListDomainModel
 from task_app.task.tests.factories import TaskFactory, UserFactory
 from task_app.models import Task
+from task_app.task.exceptions import TaskDoesNotExists
+
 
 class BookDbRepoTest(TestCase):
     def setUp(self) -> None:
@@ -41,6 +43,13 @@ class BookDbRepoTest(TestCase):
             task,
             TaskDomainModel.from_orm(task_1)
         )
+
+    def test_get_task_by_id_error(self):
+        user = UserFactory()
+
+        with self.assertRaises(TaskDoesNotExists):
+            self.db_repo.get_task_by_id(task_id=9999, user_id=user.id)
+
 
     def test_create_task(self):
         user_1 = UserFactory()
@@ -80,6 +89,21 @@ class BookDbRepoTest(TestCase):
 
         self.assertEqual(updated_task.description, new_description)
 
+    def test_update_task_error(self):
+        user = UserFactory()
+
+        # try to update a task that doesnt exists
+        with self.assertRaises(TaskDoesNotExists):
+            self.db_repo.update_task(
+                task=TaskDomainModel(
+                    id=9999,
+                    title="title",
+                    description="description",
+                    status="TO DO"
+                ),
+                user_id=user.id
+            )
+
     def test_delete_task(self):
         user = UserFactory()
 
@@ -89,6 +113,12 @@ class BookDbRepoTest(TestCase):
 
         tasks = Task.objects.filter(id=task.id, created_by_id=user.id, is_deleted=0)
         self.assertEqual(len(tasks), 0)
+
+    def test_delete_task_error(self):
+        user = UserFactory()
+        # raises exception when we try to delete task that doesnt exists
+        with self.assertRaises(TaskDoesNotExists):
+            self.db_repo.delete_task(user_id=user.id, task_id=9999)
 
     def test_list_tasks_by_status(self):
         user = UserFactory()
